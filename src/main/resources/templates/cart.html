@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>在线书城-购物车</title>
+
+    <!-- Bootstrap -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="assets/css/overhang.min.css" rel="stylesheet"/>
+    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+    <link href="assets/css/main.min.css" rel="stylesheet"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico"/>
+
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,300,300italic,400italic,500,500italic,700,700italic'
+          rel='stylesheet' type='text/css'/>
+    <style>
+        .price {
+            color: #de421e;
+        }
+
+        #booknum {
+            width: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div id="wrapper">
+    <div id="page-content-wrapper" class="st-pusher">
+        <div class="st-pusher-after"></div>
+        <!-- ============================================== HEADER ============================================== -->
+        <div th:replace="header :: header"></div>
+        <!-- ============================================== HEADER : END ============================================== -->
+
+        <div class="content wow fadeInUp">
+            <div class="container">
+                <div class="row">
+                    <ul class="breadcrumb text-center">
+                        <li><a href="/index">Home</a></li>
+                        <li>购物车</li>
+                    </ul>
+
+                    <div class="divider">
+                        <img class="img-responsive" src="assets/images/shadow.png" alt=""/>
+                    </div><!-- /.divider -->
+                </div>
+
+                <!--=====================购物车信息展示 START====================-->
+                <div class="row">
+                    <table id="items" class="table table-hover">
+                        <tr style="background-color: #00b5d1;color: #ffffff">
+                            <th>书名</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                            <th>操作</th>
+                        </tr>
+
+                        <tr th:each="cartitem : ${cart}">
+                            <td><b th:text="${cartitem.getBookname()}"></b></td>
+                            <td id="danjia" class="price" th:text="${cartitem.getPrice()}"></td>
+                            <td>
+                                <p class="bookid" style="display: none;" th:text="${cartitem.getId()}"></p>
+                                <button id="munis" onclick="minus(this)" class="btn b">-</button>
+                                <input disabled="true" onchange="change(this)" id="booknum" type="text" th:value="${cartitem.getNum()}"/>
+                                <button id="plus" onclick="plus(this)" class=" btn b">+</button>
+                                <p class="bookid" style="display: none;" th:text="${cartitem.getId()}"></p>
+                            </td>
+                            <td id="xiaoji" class="price" th:text="${cartitem.getAllprice()}"></td>
+                            <td>
+                                <p style="display: none;" th:text="${cartitem.getId()}"></p>
+                                <button onclick="del(this)" class="btn btn-sm btn-danger">删除</button>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <h4 class="pull-right">总计价格：<span id="allprice" class="price"
+                                                      th:text="${(session.itemprices!=null?session.itemprices:0)}"></span>
+                    </h4>
+
+                </div>
+                <div class="row">
+                    <button id="buy" onclick="buy()" class="pull-right btn btn-lg btn-warning">确认下单</button>
+                </div>
+                <!--=====================所有书本信息展示 END====================-->
+            </div><!-- /.container -->
+        </div><!-- /.content -->
+
+        <!-- ============================================== FOOTER ============================================== -->
+        <div th:replace="footer :: footer"></div>
+        <!-- ============================================== FOOTER : END ============================================== -->
+    </div><!-- /.st-pusher -->
+
+</div><!-- /#wrapper -->
+<script src="assets/js/jquery-1.11.2.min.js"></script>
+<script src="assets/js/overhang.min.js"></script>
+<script type="application/javascript">
+    //输入框改变
+//    function change(self) {
+//        //获得书本数量
+//        var booknum = parseInt($(self).val());
+//        var danjia = parseInt($(self).parent().prev("#danjia").html());
+//        if (booknum > 0) {
+//            var xiaoji = danjia * booknum;
+//            //修改小计
+//            $(self).parent().next("#xiaoji").html(xiaoji);
+//        } else {
+//            $(self).val(1);
+//            $(self).parent().next("#xiaoji").html(danjia);
+//        }
+//
+//    }
+
+    //增加
+    function plus(self) {
+        //获得书本数量
+        var input = $(self).prev("input");
+        var bookid = $(self).next(".bookid").html();
+        console.log(bookid);
+        var booknum = parseInt(input.val()) + 1;
+        var danjia = parseFloat($(self).parent().prev("#danjia").html());
+        var xiaoji = danjia * booknum;
+        var allprice = parseFloat($("#allprice").html());
+        $.post("/post/addcart.do", {bookid:bookid});
+        //修改数量和小计
+        $(self).parent().next("#xiaoji").html(xiaoji);
+        input.val(booknum);
+        allprice += danjia;
+        $("#allprice").html(allprice);
+    }
+
+    //减少
+    function minus(self) {
+        //获得书本数量
+        var input = $(self).next("input");
+        var bookid = parseInt($(self).prev(".bookid").html());
+        console.log(bookid);
+        var booknum = parseInt(input.val()) - 1;
+        var danjia = parseFloat($(self).parent().prev("#danjia").html());
+        var xiaoji = danjia * booknum;
+        var allprice = parseFloat($("#allprice").html());
+        //修改数量和小计
+        if (booknum != 0) {
+            $.post("/post/minuscart.do", {bookid:bookid});
+            $(self).parent().next("#xiaoji").html(xiaoji);
+            input.val(booknum);
+            allprice -= danjia;
+            $("#allprice").html(allprice);
+        }
+    }
+
+    //购物车删除条目
+    function del(self) {
+        var bookid = $(self).prev().html();
+        var tr = $(self).parent().parent();
+        $.post("/post/delcart.do",{bookid:bookid},function(data){
+            tr.hide(200);
+        });
+
+    }
+
+    //下单购买
+    function buy() {
+        $.post("/post/buy.do",function(data){
+            if(data.code == 200){
+                success();
+            }
+        });
+    }
+    function success() {
+        $('body').overhang({
+            message: "下单成功",
+            duration: 5,
+            speed: 1000,
+//                closeConfirm: true
+        });
+    }
+</script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/perfect-scrollbar.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/jquery.customSelect.min.js"></script>
+<script src="assets/js/jquery.easing-1.3.min.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/echo.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+
+</body>
+</html>

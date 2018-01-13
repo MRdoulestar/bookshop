@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>订单列表</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../assets/css/sweetalert2.min.css"/>
+    <script src="http://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../assets/js/sweetalert2.min.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <h1 class="page-header" v-html="title"></h1>
+    <div class="row">
+        <!--弹出模态框-->
+
+        <div class="col-md-offset-9 col-md-1">
+            <!--<button class="btn btn-primary" data-toggle="modal" data-target=".insert">添加客户</button>-->
+        </div>
+        <div class="col-md-2">
+            <a href="logout" class="btn btn-danger">退出登陆</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row">
+                <a href="books" class="btn btn-lg btn-default">图书信息</a>
+            </div>
+            <div class="row" style="margin-top: 2px;">
+                <a class="btn btn-lg btn-warning">订单信息</a>
+            </div>
+            <div class="row" style="margin-top: 2px;">
+                <a href="download" class="btn btn-lg btn-default">导出订单</a>
+            </div>
+        </div>
+        <div class="col-md-10 center-block">
+            <table class="table table-striped table-hover" id="table">
+                <tr>
+                    <th>ID</th>
+                    <th>书籍名称</th>
+                    <th>数量</th>
+                    <th>发货状态</th>
+                    <th>订单提交时间</th>
+                    <th>操作</th>
+                </tr>
+
+                <!--<tr>-->
+                <!--<td>id</td>-->
+                <!--<td>name</td>-->
+                <!--<td>profession</td>-->
+                <!--<td>province</td>-->
+                <!--<td>uptime</td>-->
+                <!--<td>funds</td>-->
+                <!--<td>corporation</td>-->
+                <!--<td>-->
+                <!--<a href="linkman?customerid=1" data-toggle="tooltip" data-placement="top" title="查看联系人"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>-->
+                <!--<a href="#" data-toggle="modal" data-target=".change"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>-->
+                <!--<a href="#" data-toggle="tooltip" data-placement="top" title="删除客户"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>-->
+                <!--</td>-->
+                <!--</tr>-->
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框 -->
+<!-- 修改 -->
+<div class="modal fade change" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改订单信息</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label for="name">发货状态</label>
+                            <select id="status" class="select form-control" name="status" placeholder="已发货">
+                                <option>已发货</option>
+                                <option>未发货</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="change_submit">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    $("[data-toggle='tooltip']").tooltip();
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title: '订单列表'
+        }
+    })
+
+    //时间戳转yy-mm-dd hh-mm-ss
+    function formatDateTime(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    };
+
+    //获取所有客户
+    $.post("post/getorders", function (data) {
+        objs = JSON.parse(data.data);
+        console.error(objs);
+        for (var i in objs) {
+            //时间戳转为时间格式
+            var date = formatDateTime(objs[i].time);
+            $("#table").append(
+                '<tr id="tr' + objs[i].id + '">\n' +
+                '                    <td id="id' + objs[i].id + '">' + objs[i].id + '</td>\n' +
+                '                    <td id="bookname' + objs[i].id + '">' + objs[i].bookname + '</td>\n' +
+                '                    <td id="num' + objs[i].id + '">' + objs[i].num + '</td>\n' +
+                '                    <td id="status' + objs[i].id + '">' + objs[i].status + '</td>\n' +
+                '                    <td id="time' + objs[i].id + '">' + date + '</td>\n' +
+                '                    <td>\n' +
+                '                        <a href="#" onclick="changeCustomer(this)" data-toggle="modal" data-target=".change"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>\n' +
+                '                        <a id="' + objs[i].id + '" href="#" onclick="deleteCustomer(this)" data-toggle="tooltip" data-placement="top" title="删除客户"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>\n' +
+                '                    </td>\n' +
+                '                </tr>'
+            );
+        }
+    }, "json");
+
+
+    //删除客户
+    function deleteCustomer(self) {
+        var id = $(self).attr("id");
+        $.post("post/deleteorder", {id: id}, function (data) {
+            //删除元素
+            if (data.code == 200) {
+                $("#tr" + id).hide(300);
+            }
+            // 显示返回状态信息
+            sweetAlert("", data.data, data.message);
+        }, "json");
+    };
+
+
+    //修改客户信息
+    var ch_id = 0;
+
+    function changeCustomer(self) {
+        ch_id = $(self).next().attr("id");
+    }
+
+    $("#change_submit").click(function () {
+        id = ch_id;
+        var status = $("#status").val();
+        $.post("post/updateorder", {
+            id: id, status:status
+        }, function (data) {
+            if (data.code == 200) {
+                //修改表格前端数据
+                $("#tr" + id + " #status" + id).html(status);
+            }
+            // 显示返回状态信息
+            sweetAlert("", data.data, data.message);
+        }, "json");
+    });
+
+
+</script>
+</html>

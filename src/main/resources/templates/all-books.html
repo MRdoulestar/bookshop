@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>在线书城-所有书籍</title>
+
+    <!-- Bootstrap -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/overhang.min.css" rel="stylesheet"/>
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+    <link href="assets/css/main.min.css" rel="stylesheet"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico"/>
+
+
+</head>
+<body>
+
+
+<div id="wrapper">
+    <div id="page-content-wrapper" class="st-pusher">
+        <div class="st-pusher-after"></div>
+        <!-- ============================================== HEADER ============================================== -->
+        <div th:replace="header :: header"></div>
+        <!-- ============================================== HEADER : END ============================================== -->
+
+        <div class="content wow fadeInUp">
+            <div class="container">
+                <div class="row">
+                    <ul class="breadcrumb text-center">
+                        <li><a href="/index">Home</a></li>
+                        <li>Books</li>
+                    </ul>
+
+                    <div class="divider">
+                        <img class="img-responsive" src="assets/images/shadow.png" alt=""/>
+                    </div><!-- /.divider -->
+                </div>
+
+                <!--=====================所有书本信息展示 START====================-->
+                <section class="best-seller wow fadeInUp">
+                    <div id="best-seller" class="module">
+                        <div class="module-heading home-page-module-heading">
+                            <h2 class="module-title home-page-module-title"><span>所有书籍</span></h2>
+                        </div><!-- /.module-heading -->
+
+                        <div class="module-body">
+                            <div class="row books full-width">
+                                <div class="clearfix text-center">
+                                    <!--<div class="col-md-3 col-sm-6">-->
+                                        <!--<div class="book">-->
+                                            <!--<a href="single-book.html">-->
+                                                <!--<div class="book-cover">-->
+                                                    <!--<img width="140" height="212" alt=""-->
+                                                         <!--src="assets/images/blank.gif"-->
+                                                         <!--data-echo="assets/images/book-covers/01.jpg"/>-->
+                                                    <!--<div class="tag">-->
+                                                        <!--<span>sale</span>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--<div class="book-details clearfix">-->
+                                                <!--<div class="book-description">-->
+                                                    <!--<h3 class="book-title"><a href="single-book.html">The Brief-->
+                                                        <!--Wondrous Life of Oscar Wao</a></h3>-->
+                                                    <!--<p class="book-subtitle">by <a href="single-book.html"> Cormac-->
+                                                        <!--McCarthy</a></p>-->
+                                                <!--</div>-->
+                                                <!--<div class="text-center">-->
+                                                    <!--<div class="actions">-->
+                                                        <!--<span class="book-price price">$14.75</span>-->
+                                                        <!--<div class="cart-action">-->
+                                                            <!--<a class="add-to-cart" title="Add to Cart"-->
+                                                               <!--href="javascript:void(0);">Add to Cart</a>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="col-md-3 col-sm-6">-->
+                                        <!--<div class="book">-->
+                                            <!--<a href="single-book.html">-->
+                                                <!--<div class="book-cover">-->
+                                                    <!--<img width="140" height="212" alt=""-->
+                                                         <!--src="assets/images/blank.gif"-->
+                                                         <!--data-echo="assets/images/book-covers/02.jpg"/>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--<div class="book-details clearfix">-->
+                                                <!--<div class="book-description">-->
+                                                    <!--<h3 class="book-title"><a href="single-book.html">Doctor-->
+                                                        <!--Sleep </a></h3>-->
+                                                    <!--<p class="book-subtitle">by <a href="single-book.html"> Stephen-->
+                                                        <!--King</a></p>-->
+                                                <!--</div>-->
+                                                <!--<div class="text-center">-->
+                                                    <!--<div class="actions">-->
+                                                        <!--<span class="book-price price">$14.45</span>-->
+                                                        <!--<div class="cart-action">-->
+                                                            <!--<a class="add-to-cart" title="Add to Cart"-->
+                                                               <!--href="single-book.html">Add to Cart</a>-->
+
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="col-md-3 col-sm-6">-->
+                                        <!--<div class="book">-->
+                                            <!--<a href="single-book.html">-->
+                                                <!--<div class="book-cover">-->
+                                                    <!--<img width="140" height="212" alt=""-->
+                                                         <!--src="assets/images/blank.gif"-->
+                                                         <!--data-echo="assets/images/book-covers/03.jpg"/>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--<div class="book-details clearfix">-->
+                                                <!--<div class="book-description">-->
+                                                    <!--<h3 class="book-title"><a href="single-book.html">Wonder-->
+                                                        <!--Hardcover</a></h3>-->
+                                                    <!--<p class="book-subtitle">by <a href="single-book.html"> R. J.-->
+                                                        <!--Palacio</a></p>-->
+                                                <!--</div>-->
+                                                <!--<div class="text-center">-->
+                                                    <!--<div class="actions">-->
+                                                        <!--<span class="book-price price">$9.59</span>-->
+                                                        <!--<div class="cart-action">-->
+                                                            <!--<a class="add-to-cart" title="Add to Cart"-->
+                                                               <!--href="single-book.html">Add to Cart</a>-->
+
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <div th:each="book : ${books}" class="col-md-3 col-sm-6">
+                                        <div class="book">
+                                            <a th:href="${'/book?bookid='+book.id}">
+                                                <div class="book-cover">
+                                                    <img width="140" height="212" alt=""
+                                                         src="assets/images/blank.gif"
+                                                         th:attr="data-echo=${book.img}"/>
+                                                </div>
+                                            </a>
+                                            <div class="book-details clearfix">
+                                                <div class="book-description">
+                                                    <h3 class="book-title"><a th:href="${'/book?bookid='+book.id}"
+                                                                              th:text="${book.bookname}"></a></h3>
+                                                    <p class="book-subtitle">by <a th:text=" ${book.author}"></a></p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <div class="actions">
+                                                        <span class="book-price price"
+                                                              th:text="${'￥'+(book.price)}"></span>
+                                                        <div class="cart-action">
+                                                            <a id="addcart" th:name="${book.id}" onclick="addcart(this)"
+                                                               class="add-to-cart" title="Add to Cart">添加到购物车</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </section>
+                <!--=====================所有书本信息展示 END====================-->
+            </div><!-- /.container -->
+        </div><!-- /.content -->
+
+        <!-- ============================================== FOOTER ============================================== -->
+        <div th:replace="footer :: footer"></div>
+        <!-- ============================================== FOOTER : END ============================================== -->
+    </div><!-- /.st-pusher -->
+
+</div><!-- /#wrapper -->
+
+<script src="assets/js/jquery-1.11.2.min.js"></script>
+<script src="assets/js/overhang.min.js"></script>
+<script type="application/javascript">
+    //添加到购物车
+    function addcart(self) {
+        var bookid = $(self).attr("name");
+        $.post("/post/addcart.do",{bookid:bookid},function(data){
+            if(data.code == 200) {
+                success();
+            }else {
+                error();
+            }
+        });
+    }
+    function error() {
+        $('body').overhang({
+            message: "添加购物车失败",
+            duration: 5,
+            speed: 1000,
+//                closeConfirm: true
+        });
+    }
+    function success() {
+        $('body').overhang({
+            message: "添加购物车成功",
+            duration: 5,
+            speed: 1000,
+//                closeConfirm: true
+        });
+    }
+</script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/perfect-scrollbar.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/jquery.customSelect.min.js"></script>
+<script src="assets/js/jquery.easing-1.3.min.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/echo.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+</body>
+</html>
